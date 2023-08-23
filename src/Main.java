@@ -23,7 +23,10 @@ public class Main {
     private static String serverIp = "80.66.82.168";
     private static String serverPort = "7777";
 
-    public static void main(String[] args) throws IOException {
+    private static int checkDelay = 5;
+    private static int doDelay = 120;
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         isActive = true;
         begin(process);
     }
@@ -32,7 +35,7 @@ public class Main {
         found[0] = false;
     }
 
-    public static void begin(String processToSearch) throws IOException {
+    public static void begin(String processToSearch) throws IOException, InterruptedException {
         while (isActive){
             if(mode == 0) {
                 Process process = new ProcessBuilder("tasklist.exe", "/fo", "csv", "/nh").start();
@@ -68,10 +71,15 @@ public class Main {
                 resetValues();
             } else if(mode == 1) {
                 Date date = new Date();
+                System.out.println("time: " + date.getMinutes());
+                Thread.sleep(checkDelay * 1000);
+
                 if(date.getMinutes() == minutesToJoin) {
                     Launch.samp(nickname, serverIp, serverPort);
+                    Thread.sleep(doDelay * 1000);
                 } else if(date.getMinutes() == minutesToExit) {
                     killProcess(process);
+                    Thread.sleep(doDelay * 1000);
                 }
             }
         }
