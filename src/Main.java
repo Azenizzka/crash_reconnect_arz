@@ -27,6 +27,11 @@ public class Main {
     private static int doDelay = 120;
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        // ./exec mode minutesToJoin minutesToExit nickname serverIp serverPort checkDelay doDelay
+
+
+
+
         isActive = true;
         begin(process);
     }
@@ -58,20 +63,17 @@ public class Main {
 
 
                 if(found[0]) {
-                    System.out.println(Colors.ANSI_GREEN + "Был найден процесс " + Colors.ANSI_CYAN + processToSearch + Colors.ANSI_RESET);
                     try {
                         checkCrash();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    System.out.println(Colors.ANSI_RED + "Процесс не был найден " + Colors.ANSI_CYAN + processToSearch + Colors.ANSI_RESET);
                     Launch.samp(nickname, serverIp, serverPort);
                 }
                 resetValues();
             } else if(mode == 1) {
                 Date date = new Date();
-                System.out.println("time: " + date.getMinutes());
                 Thread.sleep(checkDelay * 1000);
 
                 if(date.getMinutes() == minutesToJoin) {
@@ -89,7 +91,6 @@ public class Main {
         try {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             String data = (String) clipboard.getData(DataFlavor.stringFlavor);
-            System.out.println(Colors.ANSI_RED + "CLIPBOARD: " + Colors.ANSI_WHITE + '\"' + Colors.ANSI_CYAN + data + Colors.ANSI_WHITE + '\"' + Colors.ANSI_RESET);
             if(data.startsWith("https://crash.sr.team/?uid=")) {
                 clearClipBoard();
                 killProcess(process);
@@ -106,6 +107,5 @@ public class Main {
 
     public static void killProcess(String process) throws IOException {
         Process exec = Runtime.getRuntime().exec("taskkill /F /T /im " + process);
-        System.out.println(Colors.ANSI_RED + "KILL PROCESS: " + Colors.ANSI_PURPLE + process + Colors.ANSI_RESET);
     }
 }
